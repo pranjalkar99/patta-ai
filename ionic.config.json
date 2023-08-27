@@ -1,0 +1,8 @@
+{
+  "name": "Patta.AI",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue-vite",
+  "id": "ac8e7691"
+}
