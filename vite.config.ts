@@ -9,10 +9,16 @@ export default defineConfig({
   plugins: [
     vue(),
     legacy(),
-     VitePWA({ registerType: 'autoUpdate',workbox: {
-      clientsClaim: true,
-      skipWaiting: true
-    } })
+    VitePWA({
+      registerType: 'autoUpdate',
+      devOptions: {
+        enabled: true
+      },
+      workbox: {
+        clientsClaim: true,
+        skipWaiting: true
+      }
+    })
   ],
   resolve: {
     alias: {

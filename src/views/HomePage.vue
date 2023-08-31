@@ -131,6 +131,7 @@ export default {
 
 const getInference = async (photo: UserPhoto) => {
   try {
+    photo.processing = true;
     // Fetch the blob from the blob URL
     const response = await fetch(photo.webviewPath);
     const blob = await response.blob();
