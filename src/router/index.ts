@@ -1,20 +1,36 @@
 import { createRouter, createWebHistory } from '@ionic/vue-router';
 import { RouteRecordRaw } from 'vue-router';
+import Example from '../components/Example.vue';
 
 const routes: Array<RouteRecordRaw> = [
   {
-    path: '',
-    redirect: '/folder/Inbox'
+    path: '/',
+    redirect: '/home',
   },
   {
-    path: '/folder/:id',
-    component: () => import ('../views/FolderPage.vue')
-  }
-]
+    path: '/',
+    component: Example,
+    children: [
+      {
+        path: '',
+        redirect: '/home',
+      },
+      {
+        path: 'home',
+        component: () => import('../views/HomePage.vue'),
+      },
+      {
+        path: 'developer',
+        component: () => import('../views/RadioPage.vue'),
+      }
+    ],
+  },
+];
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
-  routes
-})
+  // Use: createWebHistory(process.env.BASE_URL) in your app
+  history: createWebHistory(),
+  routes,
+});
 
-export default router
+export default router;

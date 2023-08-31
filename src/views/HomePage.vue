@@ -16,13 +16,21 @@
                   <ion-card>
                     <ion-img :src="photo.webviewPath" @click="showProgress(photo)"></ion-img>
                     <ion-card-content>
-                      <ion-button v-if="!photo.prediction" shape="round" @click="getInference(photo)">
+                      <ion-button v-if="!photo.prediction && !photo.processing" shape="round" @click="getInference(photo)">
                         Get Inference
                       </ion-button>
+                      
+                      <!-- Loading Spinner -->
                       <ion-spinner v-if="photo.processing" color="success"></ion-spinner>
+                      
                       <div v-if="photo.prediction">
                         <ion-card-title>
-                          Predicted Class: {{ photo.prediction.predicted_class }}
+                          <span class="predicted-class-key">Predicted Class:</span> 
+                          {{ photo.prediction.predicted_class }}
+                          <ion-badge color="danger">
+                            {{ (Math.max(...photo.prediction.class_probabilities[0].map(value => value * 100))).toFixed(2) }}%
+
+                          </ion-badge>
                         </ion-card-title>
                       </div>
                     </ion-card-content>
@@ -47,6 +55,21 @@
     </ion-footer>
   </ion-page>
 </template>
+
+<style scoped>
+  .example-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+  }
+
+  .predicted-class-key {
+    font-weight: bold;
+    font-size: 1.2em;
+    text-decoration: underline;
+  }
+</style>
 
 
 <script lang="ts">
