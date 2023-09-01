@@ -65,7 +65,7 @@
             <ion-card-title>Dataset Image</ion-card-title>
           </ion-card-header>
           <ion-card-content>
-            <ion-img src="https://storage.googleapis.com/tfds-data/visualization/fig/plant_village-1.0.2.png" alt="PlantVillage Dataset Image"></ion-img>
+            <ion-img :lazy="false" src="https://storage.googleapis.com/tfds-data/visualization/fig/plant_village-1.0.2.png" alt="PlantVillage Dataset Image"></ion-img>
             </ion-card-content>
         </ion-card>
         
