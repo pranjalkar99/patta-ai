@@ -65,7 +65,7 @@
             <ion-card-title>Dataset Image</ion-card-title>
           </ion-card-header>
           <ion-card-content>
-            <ion-img :lazy="false" src="https://storage.googleapis.com/tfds-data/visualization/fig/plant_village-1.0.2.png" alt="PlantVillage Dataset Image"></ion-img>
+            <ion-img :lazy="false" src="../../public/plant_village-1.0.2.png" alt="PlantVillage Dataset Image"></ion-img>
             </ion-card-content>
         </ion-card>
         
@@ -73,8 +73,52 @@
       </ion-content>
     </ion-page>
   </template>
+
+  <script lang="ts">
+  import { leaf,call, person } from 'ionicons/icons';
+  
+  import { 
+    IonHeader, 
+    IonToolbar, 
+    IonTitle, 
+    IonContent, 
+    IonPage,
+    IonList,
+    IonItem,
+    IonLabel,
+    IonIcon,
+    IonItemGroup,
+    IonItemDivider
+  } from '@ionic/vue';
+  
+  export default {
+    components: { 
+      IonHeader, 
+      IonToolbar, 
+      IonTitle, 
+      IonContent, 
+      IonPage,
+      IonList,
+      IonItem,
+      IonLabel,
+      IonIcon,
+      IonItemGroup,
+      IonItemDivider
+    },
+    data(){
+      return {
+        leaf,call,person
+      }
+    }
+  };
+  </script>
   
   <style scoped>
-    /* You can add custom styles here */
+    .example-content {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+    }
   </style>
   
