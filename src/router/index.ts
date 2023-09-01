@@ -22,6 +22,10 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: 'developer',
         component: () => import('../views/RadioPage.vue'),
+      },
+      {
+        path: 'dataset',
+        component: () => import('../views/DetailsPage.vue'),
       }
     ],
   },

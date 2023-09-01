@@ -7,7 +7,10 @@
             <ion-icon :icon="camera" />
             <ion-label>Use Camera for Patta.AI</ion-label>
           </ion-tab-button>
-
+          <ion-tab-button tab="Dataset" href="/dataset">
+            <ion-icon :icon="leaf" />
+            <ion-label>Dataset Details</ion-label>
+          </ion-tab-button>
           
         
   
