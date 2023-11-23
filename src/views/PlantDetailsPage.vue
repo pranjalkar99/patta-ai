@@ -183,22 +183,26 @@ export default {
   },
   setup() {
     const route = useRoute();
-    const details = ref(null);
+    const details = ref<Record<string, any> | null>(null);
     const showDetails = ref(false);
 
     // Access the details from the route parameters
     onMounted(() => {
-      details.value = route.params.details;
-      showDetails.value = details.value !== null;
+  const receivedDetails = route.params.details;
 
-      console.log("Received route parameters:", route.params);
-
-      if (showDetails.value) {
-        console.log("Received details:", details.value);
-      } else {
-        console.log("No details received");
-      }
-    });
+  if (typeof receivedDetails === 'string') {
+    // Handle the case where details is a string
+    console.error('Received string instead of object:', receivedDetails);
+  } else if (Array.isArray(receivedDetails)) {
+    // Handle the case where details is an array of strings
+    console.error('Received array instead of object:', receivedDetails);
+  } else if (receivedDetails) {
+    // Handle the case where details is an object
+    details.value = receivedDetails;
+    showDetails.value = true;
+    console.log('This is received:', receivedDetails);
+  }
+});
 
     return {
       details,

@@ -14,10 +14,7 @@
               <ion-row v-for="photo in photos" :key="photo.filepath">
                 <ion-col size="12">
                   <ion-card>
-                    <ion-img
-                      :src="photo.webviewPath"
-                      @click="showProgress(photo)"
-                    ></ion-img>
+                    <ion-img :src="photo.webviewPath"></ion-img>
                     <ion-card-content>
                       <ion-button
                         v-if="!photo.prediction && !photo.processing"
@@ -30,7 +27,8 @@
                       <!-- Loading Spinner -->
                       <ion-spinner v-if="photo.processing" color="success"></ion-spinner>
 
-                      <div v-if="photo.prediction">
+
+                      <div v-if="photo.prediction !== undefined">
                         <ion-card-title>
                           <span class="predicted-class-key">Predicted Class:</span>
                           {{ photo.prediction.predicted_class }}
@@ -38,22 +36,28 @@
                             {{
                               Math.max(
                                 ...photo.prediction.class_probabilities[0].map(
-                                  (value) => value * 100
+                                 (value: number) => value * 100
                                 )
                               ).toFixed(2)
                             }}%
                           </ion-badge>
                         </ion-card-title>
-                          <ion-button @click="goToDetailsPage">Show Details</ion-button>
+                        <ion-button @click="goToDetailsPage">Show Details</ion-button>
                       </div>
                       <ion-select
                         v-if="!photo.prediction && !photo.processing"
                         placeholder="Select Option"
                         @ionChange="handleDropdownChange"
                       >
-                        <ion-select-option value="option1">Model-1(PlantVillage Dataset){default}</ion-select-option>
-                        <ion-select-option value="option2">Model-2(Own 27 classes Dataset)</ion-select-option>
-                        <ion-select-option value="option2">Model-3(Own 20 classes Dataset {500 each})</ion-select-option>
+                        <ion-select-option value="option1"
+                          >Model-1(PlantVillage Dataset){default}</ion-select-option
+                        >
+                        <ion-select-option value="option2"
+                          >Model-2(Own 27 classes Dataset)</ion-select-option
+                        >
+                        <ion-select-option value="option2"
+                          >Model-3(Own 20 classes Dataset {500 each})</ion-select-option
+                        >
                         <!-- Add more options as needed -->
                       </ion-select>
                     </ion-card-content>
@@ -119,11 +123,9 @@ import { camera } from "ionicons/icons";
 import { useCamera } from "@/composables/useCamera";
 import { useRouter } from "vue-router";
 
-
 const BACKEND_URL = ref("https://pranjalkar9-patta-ai.hf.space/predict/");
 const selectedOption = ref("option1"); // Add this line to store the selected option
 const details = ref(null);
-
 
 export default {
   components: {
@@ -145,13 +147,15 @@ export default {
     IonSelect,
     IonSelectOption,
   },
-   methods: {
-   goToDetailsPage() {
-  // Navigate to the details page
-  this.$router.push({ name: "plant", params: { details: JSON.parse(details.value) } });
-},
-
-   },
+  methods: {
+    goToDetailsPage() {
+      // Navigate to the details page
+      this.$router.push({
+        name: "plant",
+        params: { details: JSON.parse(details.value) },
+      });
+    },
+  },
   setup() {
     const { takePhoto, photos } = useCamera();
 
@@ -166,7 +170,8 @@ export default {
           BACKEND_URL.value = "https://pranjalkar9-patta-ai.hf.space/predict/";
           break;
         case "option2":
-          BACKEND_URL.value = "https://pranjalkar9-patta-ai.hf.space/predict-self-dataset-27/";
+          BACKEND_URL.value =
+            "https://pranjalkar9-patta-ai.hf.space/predict-self-dataset-27/";
           break;
         case "option3":
           BACKEND_URL.value = "https://pranjalkar9-patta-ai.hf.space/predict_20/";
@@ -198,16 +203,16 @@ export default {
         });
 
         console.log(axiosResponse.data);
-        
-        if (axiosResponse.data.details) {
-      // Navigate to the details page
-      console.log("go to /plant");
-      // Use Vue Router to navigate
-      details.value = axiosResponse.data.details;
-      // router.push({ name: "plant", params: { details } });
-    }
 
-console.log("This is now the details:",details.value)
+        if (axiosResponse.data.details) {
+          // Navigate to the details page
+          console.log("go to /plant");
+          // Use Vue Router to navigate
+          details.value = axiosResponse.data.details;
+          // router.push({ name: "plant", params: { details } });
+        }
+
+        console.log("This is now the details:", details.value);
         photo.prediction = axiosResponse.data;
         photo.processing = false;
       } catch (error) {
@@ -227,4 +232,3 @@ console.log("This is now the details:",details.value)
   },
 };
 </script>
-
