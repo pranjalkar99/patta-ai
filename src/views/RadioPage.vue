@@ -22,11 +22,23 @@
             <ion-icon slot="start" name="mail" color="primary"></ion-icon>
             <ion-label>samunder268@gmail.com</ion-label>
           </ion-item>
+          <ion-item>
+            <ion-icon slot="start" name="mail" color="primary"></ion-icon>
+            <ion-label>rohandeepatwork@gmail.com</ion-label>
+          </ion-item>
 
           <!-- Name -->
           <ion-item>
             <ion-icon :icon="person" slot="start" name="person" color="primary" />
-            <ion-label>rohandeep</ion-label>
+            <ion-label>Pranjal Kar</ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-icon :icon="person" slot="start" name="person" color="primary" />
+            <ion-label>Samunder Singh</ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-icon :icon="person" slot="start" name="person" color="primary" />
+            <ion-label>Rohandeep Goyal</ion-label>
           </ion-item>
 
           <!-- WhatsApp -->

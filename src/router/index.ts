@@ -26,6 +26,10 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: 'dataset',
         component: () => import('../views/DetailsPage.vue'),
+      },
+      {
+        path: 'plant',
+        component: () => import('../views/PlantDetailsPage.vue'),
       }
     ],
   },
