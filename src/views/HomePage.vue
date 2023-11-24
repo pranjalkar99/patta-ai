@@ -66,7 +66,7 @@
                         <ion-select-option value="option2"
                           >Model-2(Own 27 classes Dataset)</ion-select-option
                         >
-                        <ion-select-option value="option2"
+                        <ion-select-option value="option3"
                           >Model-3(Own 20 classes Dataset {500 each})</ion-select-option
                         >
                         <!-- Add more options as needed -->
