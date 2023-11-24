@@ -27,7 +27,6 @@
                       <!-- Loading Spinner -->
                       <ion-spinner v-if="photo.processing" color="success"></ion-spinner>
 
-
                       <div v-if="photo.prediction !== undefined">
                         <ion-card-title>
                           <span class="predicted-class-key">Predicted Class:</span>
@@ -42,7 +41,19 @@
                             }}%
                           </ion-badge> -->
                         </ion-card-title>
-                        <ion-button @click="goToDetailsPage">Show Details</ion-button>
+                        <!-- <ion-button @click="goToDetailsPage">Show Details</ion-button> -->
+                        <ion-item v-if="photo.prediction.details && photo.showDetails">
+                          <ion-label>Details:</ion-label>
+                          <ion-text>
+                            <pre>{{
+                              JSON.stringify(photo.prediction.details, null, 2)
+                            }}</pre>
+                          </ion-text>
+                        </ion-item>
+
+                        <ion-button @click="handleDetailsClick(photo)">
+                          {{ photo.showDetails ? "Hide Details" : "Show Details" }}
+                        </ion-button>
                       </div>
                       <ion-select
                         v-if="!photo.prediction && !photo.processing"
@@ -163,6 +174,16 @@ export default {
       selectedOption.value = event.detail.value; // Update the selected option
       updateBackendUrl(); // Call the function to update the backend URL
     };
+    // const handleDetailsClick = (photo) => {
+    //   // Toggle the details visibility for the selected photo
+    //   photo.showDetails = !photo.showDetails;
+    // };
+
+    // // ... (previous return values) ...
+    // return {
+    //   // ... (previous return values) ...
+    //   handleDetailsClick,
+    // };
 
     const updateBackendUrl = () => {
       switch (selectedOption.value) {
@@ -174,7 +195,7 @@ export default {
             "https://pranjalkar9-patta-ai.hf.space/predict-self-dataset-27/";
           break;
         case "option3":
-          BACKEND_URL.value = "https://pranjalkar9-patta-ai.hf.space/predict_20/";
+          BACKEND_URL.value = "https://pranjalkar9-patta-ai.hf.space/predict-plant-dataset-22/";
           break;
         // Add more cases if needed
       }
@@ -215,6 +236,9 @@ export default {
         console.log("This is now the details:", details.value);
         photo.prediction = axiosResponse.data;
         photo.processing = false;
+        if (axiosResponse.data.details) {
+          photo.details = axiosResponse.data.details;
+        }
       } catch (error) {
         console.error("Error sending photo:", error);
         photo.processing = false;
