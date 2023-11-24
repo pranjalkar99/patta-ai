@@ -67,7 +67,10 @@
                           >Model-2(Own 27 classes Dataset)</ion-select-option
                         >
                         <ion-select-option value="option3"
-                          >Model-3(Own 20 classes Dataset {500 each})</ion-select-option
+                          >Model-3(Plant Leaf dataset)</ion-select-option
+                        >
+                        <ion-select-option value="option4"
+                          >Model-3(Merged Plant dataset{25 classes})</ion-select-option
                         >
                         <!-- Add more options as needed -->
                       </ion-select>
@@ -196,6 +199,9 @@ export default {
           break;
         case "option3":
           BACKEND_URL.value = "https://pranjalkar9-patta-ai.hf.space/predict-plant-dataset-22/";
+          break;
+        case "option4":
+          BACKEND_URL.value = "https://pranjalkar9-patta-ai.hf.space/predict-plant-dataset-merge-25/";
           break;
         // Add more cases if needed
       }
