@@ -32,7 +32,7 @@
                         <ion-card-title>
                           <span class="predicted-class-key">Predicted Class:</span>
                           {{ photo.prediction.predicted_class }}
-                          <ion-badge color="danger">
+                          <!-- <ion-badge color="danger">
                             {{
                               Math.max(
                                 ...photo.prediction.class_probabilities[0].map(
@@ -40,7 +40,7 @@
                                 )
                               ).toFixed(2)
                             }}%
-                          </ion-badge>
+                          </ion-badge> -->
                         </ion-card-title>
                         <ion-button @click="goToDetailsPage">Show Details</ion-button>
                       </div>
