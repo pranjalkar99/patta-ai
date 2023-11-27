@@ -201,7 +201,7 @@ export default {
           BACKEND_URL.value = "https://pranjalkar9-patta-ai.hf.space/predict-plant-dataset-22/";
           break;
         case "option4":
-          BACKEND_URL.value = "https://pranjalkar9-patta-ai.hf.space/predict-plant-dataset-merge-25/";
+          BACKEND_URL.value = "https://pranjalkar9-patta-ai.hf.space/predict-demo/";
           break;
         // Add more cases if needed
       }
