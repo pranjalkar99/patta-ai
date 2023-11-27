@@ -26,7 +26,29 @@
 
                       <!-- Loading Spinner -->
                       <ion-spinner v-if="photo.processing" color="success"></ion-spinner>
+                               <ion-button expand="block" @click="() => setOpen(true)">Open</ion-button>
 
+<div v-if="photo.prediction !== undefined">
+    <ion-content class="ion-padding">
+    <ion-modal :is-open="isOpen">
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Modal</ion-title>
+          <ion-buttons slot="end">
+            <ion-button @click="setOpen(false)">Close</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni illum quidem recusandae ducimus quos
+          reprehenderit. Veniam, molestias quos, dolorum consequuntur nisi deserunt omnis id illo sit cum qui. Eaque,
+          dicta.
+        </p>
+      </ion-content>
+    </ion-modal>
+    </ion-content>
+</div>
                       <div v-if="photo.prediction !== undefined">
                         <ion-card-title>
                           <span class="predicted-class-key">Predicted Class:</span>
@@ -114,23 +136,26 @@
 <script lang="ts">
 import axios from "axios";
 import {
-  IonContent,
-  IonPage,
-  IonHeader,
-  IonTitle,
-  IonToolbar,
-  IonFab,
-  IonFabButton,
-  IonIcon,
-  IonGrid,
-  IonRow,
-  IonCol,
-  IonImg,
-  IonButton,
-  IonCard,
-  IonCardContent,
-  IonSelect,
-  IonSelectOption,
+    IonContent,       
+    IonPage,
+    IonHeader,
+    IonTitle,
+    IonToolbar,
+    IonFab,
+    IonFabButton,
+    IonButtons,
+    IonButton,
+    IonModal,
+    IonIcon,
+    IonGrid,
+    IonRow,
+    IonCol,
+    IonImg,
+    IonCard,
+    IonCardContent,
+    IonSelect,
+    IonSelectOption,
+  
 } from "@ionic/vue";
 import { ref } from "vue";
 import { camera } from "ionicons/icons";
@@ -138,28 +163,38 @@ import { useCamera } from "@/composables/useCamera";
 import { useRouter } from "vue-router";
 
 const BACKEND_URL = ref("https://pranjalkar9-patta-ai.hf.space/predict/");
+
+
+
+
 const selectedOption = ref("option1"); // Add this line to store the selected option
 const details = ref(null);
 
+
+
+ 
+
 export default {
   components: {
-    IonHeader,
-    IonToolbar,
-    IonTitle,
-    IonContent,
+    IonContent,                       
     IonPage,
+    IonHeader,
+    IonTitle,
+    IonToolbar,
     IonFab,
     IonFabButton,
+    IonButtons,
+    IonButton,
+    IonModal,
     IonIcon,
     IonGrid,
     IonRow,
     IonCol,
     IonImg,
-    IonButton,
     IonCard,
     IonCardContent,
     IonSelect,
-    IonSelectOption,
+    IonSelectOption
   },
   methods: {
     goToDetailsPage() {
@@ -172,6 +207,11 @@ export default {
   },
   setup() {
     const { takePhoto, photos } = useCamera();
+    const isOpen = ref(false);
+   const setOpen = (open) => {
+  console.log("Setting isOpen to:", open);
+  isOpen.value = open;
+};
 
     const handleDropdownChange = (event) => {
       selectedOption.value = event.detail.value; // Update the selected option
@@ -258,6 +298,8 @@ export default {
       getInference,
       BACKEND_URL,
       handleDropdownChange,
+      isOpen,
+      setOpen,
     };
   },
 };
