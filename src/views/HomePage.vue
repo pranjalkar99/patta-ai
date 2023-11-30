@@ -16,39 +16,11 @@
                   <ion-card>
                     <ion-img :src="photo.webviewPath"></ion-img>
                     <ion-card-content>
-                      <ion-button
-                        v-if="!photo.prediction && !photo.processing"
-                        shape="round"
-                        @click="getInference(photo)"
-                      >
+                      <ion-button v-if="!photo.prediction && !photo.processing" shape="round"
+                        @click="getInference(photo)">
                         Get Inference
                       </ion-button>
 
-                      <!-- Loading Spinner -->
-                      <ion-spinner v-if="photo.processing" color="success"></ion-spinner>
-                               <ion-button expand="block" @click="() => setOpen(true)">Open</ion-button>
-
-<div v-if="photo.prediction !== undefined">
-    <ion-content class="ion-padding">
-    <ion-modal :is-open="isOpen">
-      <ion-header>
-        <ion-toolbar>
-          <ion-title>Modal</ion-title>
-          <ion-buttons slot="end">
-            <ion-button @click="setOpen(false)">Close</ion-button>
-          </ion-buttons>
-        </ion-toolbar>
-      </ion-header>
-      <ion-content class="ion-padding">
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni illum quidem recusandae ducimus quos
-          reprehenderit. Veniam, molestias quos, dolorum consequuntur nisi deserunt omnis id illo sit cum qui. Eaque,
-          dicta.
-        </p>
-      </ion-content>
-    </ion-modal>
-    </ion-content>
-</div>
                       <div v-if="photo.prediction !== undefined">
                         <ion-card-title>
                           <span class="predicted-class-key">Predicted Class:</span>
@@ -62,8 +34,14 @@
                               ).toFixed(2)
                             }}%
                           </ion-badge> -->
+
                         </ion-card-title>
                         <!-- <ion-button @click="goToDetailsPage">Show Details</ion-button> -->
+                        <!-- Loading Spinner -->
+                        <!-- <ion-spinner v-if="photo.processing" color="success"></ion-spinner>
+                      <ion-button expand="block" @click="() => setOpen(true)">Open</ion-button>
+
+                      
                         <ion-item v-if="photo.prediction.details && photo.showDetails">
                           <ion-label>Details:</ion-label>
                           <ion-text>
@@ -71,29 +49,67 @@
                               JSON.stringify(photo.prediction.details, null, 2)
                             }}</pre>
                           </ion-text>
-                        </ion-item>
+                        </ion-item> -->
 
-                        <ion-button @click="handleDetailsClick(photo)">
+                        <!-- <ion-button @click="handleDetailsClick(photo)">
                           {{ photo.showDetails ? "Hide Details" : "Show Details" }}
-                        </ion-button>
+                        </ion-button> -->
                       </div>
-                      <ion-select
-                        v-if="!photo.prediction && !photo.processing"
-                        placeholder="Select Option"
-                        @ionChange="handleDropdownChange"
-                      >
-                        <ion-select-option value="option1"
-                          >Model-1(PlantVillage Dataset){default}</ion-select-option
-                        >
-                        <ion-select-option value="option2"
-                          >Model-2(Own 27 classes Dataset)</ion-select-option
-                        >
-                        <ion-select-option value="option3"
-                          >Model-3(Plant Leaf dataset)</ion-select-option
-                        >
-                        <ion-select-option value="option4"
-                          >Model-3(Merged Plant dataset{25 classes})</ion-select-option
-                        >
+
+                      <ion-button v-if="photo.prediction" @click="() => setOpen(true)">
+                        Show Details
+
+                        <ion-content class="ion-padding">
+                          <ion-modal :is-open="isOpen">
+                            <ion-header>
+                              <ion-toolbar>
+                                <ion-title>Modal</ion-title>
+                                <ion-buttons slot="end">
+                                  <ion-button @click="setOpen(false)">Close</ion-button>
+                                </ion-buttons>
+                              </ion-toolbar>
+                            </ion-header>
+                            <ion-content class="ion-padding">
+                              <p>
+                                {{ photo.prediction.predicted_class }}
+                              </p>
+                              <p v-if="photo.details">
+  <!-- Parse the JSON string into an object -->
+  <strong>Plant Name:</strong> {{ photo.details[0]['Plant Name'] }}<br>
+  <strong>Full Scientific Name:</strong> {{ photo.details[0]['Full Scientific Name'] }}<br>
+  <strong>Common Names in India:</strong> {{ photo.details[0]['Common Names in India'] }}<br>
+
+  <strong>Medicinal Uses:</strong>
+  <ul>
+    <li v-for="use in photo.details[0]['Medicinal Uses']">{{ use }}</li>
+  </ul>
+
+  <strong>Diseases Treated:</strong>
+  <ul>
+    <li v-for="disease in photo.details[0]['Diseases Treated']">{{ disease }}</li>
+  </ul>
+
+  <!-- Repeat a similar pattern for other sections -->
+
+  <strong>Sources:</strong>
+  <ul>
+    <li v-for="source in photo.details[0]['Sources']">
+      <a :href="source">{{ source }}</a>
+    </li>
+  </ul>
+</p>
+
+                            </ion-content>
+                          </ion-modal>
+                        </ion-content>
+                      </ion-button>
+
+                      <ion-select v-if="!photo.prediction && !photo.processing" placeholder="Select Option"
+                        @ionChange="handleDropdownChange">
+                        <ion-select-option value="option1">Model-1(PlantVillage Dataset){default}</ion-select-option>
+                        <ion-select-option value="option2">Model-2(Own 27 classes Dataset)</ion-select-option>
+                        <ion-select-option value="option3">Model-3(Plant Leaf dataset)</ion-select-option>
+                        <ion-select-option value="option4">Model-4(Merged Plant dataset{25 classes})</ion-select-option>
                         <!-- Add more options as needed -->
                       </ion-select>
                     </ion-card-content>
@@ -136,26 +152,26 @@
 <script lang="ts">
 import axios from "axios";
 import {
-    IonContent,       
-    IonPage,
-    IonHeader,
-    IonTitle,
-    IonToolbar,
-    IonFab,
-    IonFabButton,
-    IonButtons,
-    IonButton,
-    IonModal,
-    IonIcon,
-    IonGrid,
-    IonRow,
-    IonCol,
-    IonImg,
-    IonCard,
-    IonCardContent,
-    IonSelect,
-    IonSelectOption,
-  
+  IonContent,
+  IonPage,
+  IonHeader,
+  IonTitle,
+  IonToolbar,
+  IonFab,
+  IonFabButton,
+  IonButtons,
+  IonButton,
+  IonModal,
+  IonIcon,
+  IonGrid,
+  IonRow,
+  IonCol,
+  IonImg,
+  IonCard,
+  IonCardContent,
+  IonSelect,
+  IonSelectOption,
+
 } from "@ionic/vue";
 import { ref } from "vue";
 import { camera } from "ionicons/icons";
@@ -172,11 +188,11 @@ const details = ref(null);
 
 
 
- 
+
 
 export default {
   components: {
-    IonContent,                       
+    IonContent,
     IonPage,
     IonHeader,
     IonTitle,
@@ -208,10 +224,10 @@ export default {
   setup() {
     const { takePhoto, photos } = useCamera();
     const isOpen = ref(false);
-   const setOpen = (open) => {
-  console.log("Setting isOpen to:", open);
-  isOpen.value = open;
-};
+    const setOpen = (open) => {
+      console.log("Setting isOpen to:", open);
+      isOpen.value = open;
+    };
 
     const handleDropdownChange = (event) => {
       selectedOption.value = event.detail.value; // Update the selected option
@@ -283,7 +299,8 @@ export default {
         photo.prediction = axiosResponse.data;
         photo.processing = false;
         if (axiosResponse.data.details) {
-          photo.details = axiosResponse.data.details;
+          photo.details = JSON.parse(axiosResponse.data.details);
+          console.log("this is inside photo.details:",photo.details);
         }
       } catch (error) {
         console.error("Error sending photo:", error);
